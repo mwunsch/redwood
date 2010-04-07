@@ -1,7 +1,21 @@
 require 'helper'
 
 class TestRedwood < Test::Unit::TestCase
-  should "probably rename this file and start testing for real" do
-    flunk "hey buddy, you should probably rename this file and start testing for real"
+  describe 'Node' do    
+    test 'has a name' do
+      node = Redwood::Node.new(:test)
+      assert_equal :test, node.name
+    end
+    
+    test 'can be without children' do
+      node = Redwood::Node.new
+      assert node.childless?
+      assert !node.has_children?
+    end
+    
+    test 'can be a root element' do
+      node = Redwood::Node.new
+      assert node.root?
+    end
   end
 end
