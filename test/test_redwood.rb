@@ -17,5 +17,103 @@ class TestRedwood < Test::Unit::TestCase
       node = Redwood::Node.new
       assert node.root?
     end
+    
+    test 'add a child' do
+      node = Redwood::Node.new
+      assert node.children.empty?
+      node.add_child(:child)
+      assert_equal :child, node.children.first.name
+    end
+    
+    test 'has children' do
+      node = Redwood::Node.new
+      node.add_child(:child)
+      assert_equal 1, node.children.size
+    end
+    
+    test 'lookup children by named key' do
+      node = Redwood::Node.new
+      child = node.add_child(:child)
+      assert_equal child, node[:child]
+    end
+    
+    test 'has siblings' do
+      node = Redwood::Node.new
+      child = node.add_child(:child)
+      bro = node.add_child(:bro)
+      sis = node.add_child(:sis)
+      assert_equal 2, child.siblings.size
+      assert child.siblings.include?(bro)
+      assert child.siblings.include?(sis)
+      assert !child.siblings.include?(child)
+    end
+    
+    test 'is an only child' do
+      parent_one = Redwood::Node.new
+      parent_two = Redwood::Node.new
+      parent_one.add_child(:one_child)
+      parent_one.add_child(:one_bro)
+      parent_two.add_child(:two_child)
+      
+      assert !parent_one.children.first.only_child?
+      assert parent_two.children.first.only_child?
+    end
+    
+    test 'has ancestors' do
+      node = Redwood::Node.new(:parent)
+      son = node.add_child(:son)
+      daughter = node.add_child(:daughter)
+      grandson = son.add_child(:grandson)
+      greatgrandson = grandson.add_child(:greatgrandson)
+      
+      ancestors = greatgrandson.ancestors
+      
+      assert ancestors.include?(grandson)
+      assert ancestors.include?(son)
+      assert ancestors.include?(node)
+      assert !ancestors.include?(greatgrandson)
+      assert !ancestors.include?(daughter)
+    end
+    
+    test 'has a root' do
+      node = Redwood::Node.new(:parent)
+      son = node.add_child(:son)
+      grandson = son.add_child(:grandson)
+      greatgrandson = grandson.add_child(:greatgrandson)
+      
+      assert_equal node, greatgrandson.root
+      assert_equal node, node.root
+    end
+    
+    test 'has descendants' do
+      node = Redwood::Node.new(:parent)
+      son = node.add_child(:son)
+      daughter = node.add_child(:daughter)
+      grandson = son.add_child(:grandson)
+      granddaughter = daughter.add_child(:granddaughter)
+      greatgrandson = grandson.add_child(:greatgrandson)
+      
+      descendants = node.descendants
+      assert descendants.include?(son)
+      assert descendants.include?(daughter)
+      assert descendants.include?(grandson)
+      assert descendants.include?(granddaughter)
+      assert descendants.include?(greatgrandson)
+      assert !descendants.include?(node)
+    end
+    
+    test 'has a depth' do
+      node = Redwood::Node.new(:parent)
+      son = node.add_child(:son)
+      daughter = node.add_child(:daughter)
+      grandson = son.add_child(:grandson)
+      greatgrandson = grandson.add_child(:greatgrandson)
+      
+      assert_equal 0, node.depth
+      assert_equal daughter.depth, son.depth
+      assert_equal 2, grandson.depth
+      assert_equal 3, greatgrandson.depth
+    end
+        
   end
 end

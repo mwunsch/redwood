@@ -1,4 +1,4 @@
-class Redwood
+module Redwood
   VERSION = "0.0.1"  
 end
 
