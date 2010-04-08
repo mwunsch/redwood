@@ -1,7 +1,7 @@
 require 'helper'
 
-class TestRedwood < Test::Unit::TestCase
-  describe 'Node' do    
+class TestRedwood < Test::Unit::TestCase  
+  describe 'Node' do
     test 'has a name' do
       node = Redwood::Node.new(:test)
       assert_equal :test, node.name
@@ -113,6 +113,26 @@ class TestRedwood < Test::Unit::TestCase
       assert_equal daughter.depth, son.depth
       assert_equal 2, grandson.depth
       assert_equal 3, greatgrandson.depth
+    end
+    
+    test 'has a treeview' do
+      node = Redwood::Node.new(:parent)
+      dog = node.add_child(:dog)
+      puppy = dog.add_child(:puppy)
+      son = node.add_child(:son)
+      
+      daughter = node.add_child(:daughter)
+      grandson = son.add_child(:grandson)
+      granddaughter = daughter.add_child(:granddaughter)
+      granddaughter.add_child(:greatgranddaughter).add_child(:hamburger)
+      daughterson = daughter.add_child(:grandson)
+      daughterson.add_child(:ruuudabegh).add_child(:hotdog)
+      daughterson.add_child(:watermelon).add_child(:greatgrandson)
+      greatgrandson = grandson.add_child(:greatgrandson)
+      greatgranddaughter = grandson.add_child(:greatgranddaughter).add_child(:strawberry)
+      son.add_child(:granddaughter)
+      
+      puts "\n"+node.view
     end
         
   end

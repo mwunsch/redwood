@@ -1,23 +1,12 @@
 module Redwood
   class Node
+    include Redwood
     
-    attr_reader :name, :parent
+    attr_reader :name
     
     def initialize(name=nil, parent=nil)
       @name = name
       @parent = parent
-    end
-    
-    def root?
-      parent.nil?
-    end
-    
-    def root
-      if root?
-        self
-      else
-        parent.root
-      end
     end
     
     # Creates a child, adds it to children, and returns the child
@@ -26,59 +15,30 @@ module Redwood
       children << child
       child
     end
-  
-    def children
-      @children ||= []
-    end
     
     def [](key)
       selected_child = children.select {|child| child.name == key }
       selected_child.size.eql?(1) ? selected_child.first : selected_child
     end
     
-    def siblings
-      if parent
-        parent.children.reject {|child| child == self }
-      end
-    end
-    
-    def only_child?
-      if parent
-        siblings.empty?
-      end
-    end
-    
-    def childless?
-      children.nil? || children.empty?
-    end
-    
-    def has_children?
-      !childless?
-    end
-  
-    def ancestors
-      return @ancestors if @ancestors
-      @ancestors = []
-      if parent
-        @ancestors << parent
-        parent.ancestors.each {|ancestor| @ancestors << ancestor }
-      end
-      @ancestors
-    end
-
-    def descendants
-      return @descendants if @descendants
-      @descendants = []
+    def view(content = name)
+      treeview = "#{content} (#{depth})"
       if !children.empty?
-        (@descendants << children).flatten!
-        children.each {|descendant| @descendants << descendant.descendants }
-        @descendants.flatten!   
+        treeview += "\n"
+        children.each do |child|
+          if parent && parent.children.last.eql?(self)
+            treeview += ("|\s\s\s"*parent.depth)
+            treeview += "\s\s\s\s"
+          else
+            treeview += "|\s\s\s"*depth          
+          end
+          treeview += children.last.eql?(child) ? "`" : "|"          
+          treeview += "--\s#{child.view}"          
+          treeview += "\n" if !children.last.eql?(child)          
+        end
       end
-      @descendants
+      treeview
     end
-
-    def depth
-      ancestors.size
-    end
+    
   end
 end
