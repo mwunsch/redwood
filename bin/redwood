@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+begin
+  require 'redwood'
+rescue LoadError
+  raise if $!.to_s !~ /redwood/
+  libdir = File.expand_path("../../lib", __FILE__).sub(/^#{Dir.pwd}/, '.')
+  if !$:.include?(libdir)
+    $:.unshift libdir
+    retry
+  end
+  raise
+end
+
+def statement(tree)
+  directories = 0
+  files = 0
+  tree.descendants.each do |f|
+    directories += 1 if f.directory?
+    files += 1 if f.file?
+  end
+  "#{directories} directories, #{files} file"
+end
+
+if ARGV.empty?
+  tree = Redwood::FileNode.scandir('.')
+  puts tree.view
+  puts "\n"
+  puts statement(tree)
+  exit
+end
+  
