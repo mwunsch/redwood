@@ -160,7 +160,7 @@ class TestRedwood < Test::Unit::TestCase
     
     test 'scan a directory' do
       dir = Redwood::Node.scandir
-      assert_equal File.basename(Dir.pwd), dir.name
+      assert_equal Dir.pwd, dir.name
     end
             
   end

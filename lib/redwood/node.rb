@@ -3,7 +3,7 @@ module Redwood
     include Redwood
     
     def self.scandir(dir = Dir.pwd, tree=nil)
-      node = tree ? tree : self.new(File.basename(dir))
+      node = tree ? tree : self.new(dir)
       if File.directory?(dir)
         Dir.foreach(dir) do |d|
           if File.directory?("#{dir}/#{d}")
