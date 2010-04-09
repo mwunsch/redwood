@@ -1,5 +1,3 @@
-require 'redwood'
-
 module Redwood
   class FileNode < Node
     
