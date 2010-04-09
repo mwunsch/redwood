@@ -21,13 +21,13 @@ module Redwood
       selected_child.size.eql?(1) ? selected_child.first : selected_child
     end
     
-    def view(content = name)
+    def view(content = :name)
       treeview = ''
       if parent
         treeview += parent.children.last.eql?(self) ? "`" : "|"
         treeview << "--\s"
       end
-      treeview << "#{content}"
+      treeview << "#{self.send(content)}"
       if !children.empty?
         treeview << "\n"
         children.each do |child|
@@ -42,7 +42,7 @@ module Redwood
               end
             end       
           end
-          treeview << child.view    
+          treeview << child.view(content)
           treeview << "\n" if !children.last.eql?(child)          
         end
       end
