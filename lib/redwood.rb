@@ -10,6 +10,12 @@ module Redwood
     @parent
   end
   
+  def name
+  end
+  
+  def value
+  end
+  
   def root?
     parent.nil?
   end
@@ -73,7 +79,35 @@ module Redwood
 
   def depth
     ancestors.size + 1
-  end  
+  end
+  
+  def view(content = :name)
+    treeview = ''
+    if parent
+      treeview += parent.children.last.eql?(self) ? "`" : "|"
+      treeview << "--\s"
+    end
+    treeview << "#{self.send(content)}"
+    if !children.empty?
+      treeview << "\n"
+      children.each do |child|
+        if parent
+          child.ancestors.reverse_each do |ancestor|
+            if !ancestor.root?
+              if ancestor.only_child? || ancestor.parent.children.last.eql?(ancestor)
+                treeview << "\s\s\s\s"
+              else
+                treeview << "|\s\s\s"
+              end                
+            end
+          end
+        end
+        treeview << child.view(content)
+        treeview << "\n" if !children.last.eql?(child)          
+      end
+    end
+    treeview
+  end
   
 end
 
