@@ -157,6 +157,11 @@ class TestRedwood < Test::Unit::TestCase
       assert !dog.root?
       assert !node.leaf?
     end
-        
+    
+    test 'scan a directory' do
+      dir = Redwood::Node.scandir
+      assert_equal File.basename(Dir.pwd), dir.name
+    end
+            
   end
 end

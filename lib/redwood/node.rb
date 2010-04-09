@@ -2,6 +2,22 @@ module Redwood
   class Node
     include Redwood
     
+    def self.scandir(dir = Dir.pwd, tree=nil)
+      node = tree ? tree : self.new(File.basename(dir))
+      if File.directory?(dir)
+        Dir.foreach(dir) do |d|
+          if File.directory?("#{dir}/#{d}")
+            node << scandir("#{dir}/#{d}",tree) unless (d.eql?('..') || d.eql?('.') || d.eql?('.git'))
+          else
+            node.add_child(d)
+          end
+        end
+      else
+        node.add_child(dir)
+      end
+      node
+    end
+    
     attr_reader :name
     
     def initialize(name=nil, parent=nil)
