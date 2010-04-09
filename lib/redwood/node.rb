@@ -27,14 +27,18 @@ module Redwood
         treeview += parent.children.last.eql?(self) ? "`" : "|"
         treeview << "--\s"
       end
-      treeview << "#{content} (#{depth})"
+      treeview << "#{content}"
       if !children.empty?
         treeview << "\n"
         children.each do |child|
           if parent
-            child.ancestors.each do |ancestor|
+            child.ancestors.reverse_each do |ancestor|
               if !ancestor.root?
-                treeview << "|\s\s\s"
+                if ancestor.only_child? || ancestor.parent.children.last.eql?(ancestor)
+                  treeview << "\s\s\s\s"
+                else
+                  treeview << "|\s\s\s"
+                end                
               end
             end       
           end

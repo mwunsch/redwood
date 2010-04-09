@@ -119,21 +119,12 @@ class TestRedwood < Test::Unit::TestCase
       node = Redwood::Node.new(:parent)
       dog = node.add_child(:dog)
       puppy = dog.add_child(:puppy)
-      son = node.add_child(:son)
-      
+      son = node.add_child(:son)      
       daughter = node.add_child(:daughter)
       grandson = son.add_child(:grandson)
-      granddaughter = daughter.add_child(:granddaughter)
-      granddaughter.add_child(:greatgranddaughter).add_child(:hamburger).add_child(:ketchup)
-      daughterson = daughter.add_child(:grandson)
-      daughterson.add_child(:ruuudabegh).add_child(:hotdog)
-      daughterson.add_child(:watermelon).add_child(:greatgrandson)
-      greatgrandson = grandson.add_child(:greatgrandson)
-      greatgrandson.add_child(:cheese)
-      greatgranddaughter = grandson.add_child(:greatgranddaughter).add_child(:strawberry).add_child(:juice)
-      son.add_child(:granddaughter)
       
-      puts "\n"+node.view
+      assert_respond_to node, :view
+      assert_equal String, node.view.class
     end
         
   end
