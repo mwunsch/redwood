@@ -116,6 +116,6 @@ module Redwood
     treeview
   end
   
+  autoload :FileNode, 'redwood/file'
+  autoload :Node, 'redwood/node'
 end
-
-require 'redwood/node'

@@ -158,10 +158,27 @@ class TestRedwood < Test::Unit::TestCase
       assert !node.leaf?
     end
     
+    test 'has an optional arbitrary value' do
+      node = Redwood::Node.new(:parent)
+      node.value = "hello world"
+      assert_equal "hello world", node.value
+    end          
+  end
+
+  describe 'FileNode' do
     test 'scan a directory' do
-      dir = Redwood::Node.scandir
+      dir = Redwood::FileNode.scandir
       assert_equal Dir.pwd, dir.name
     end
-            
+    
+    test 'implements File methods on the Node' do
+      dir = Redwood::FileNode.scandir
+      assert dir.directory?
+    end
+    
+    test 'has a full path' do
+      dir = Redwood::FileNode.scandir('.')
+      assert_equal File.expand_path('.'), dir.path
+    end
   end
 end
