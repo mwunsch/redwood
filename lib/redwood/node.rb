@@ -32,11 +32,11 @@ module Redwood
         treeview << "\n"
         children.each do |child|
           if parent
-            if only_child? || parent.children.last.eql?(self)
-              treeview << "|\s\s\s"*(parent.depth - 1) + "\s\s\s\s"                
-            else
-              treeview << "|\s\s\s"*parent.depth
-            end         
+            child.ancestors.each do |ancestor|
+              if !ancestor.root?
+                treeview << "|\s\s\s"
+              end
+            end       
           end
           treeview << child.view    
           treeview << "\n" if !children.last.eql?(child)          
