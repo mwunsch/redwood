@@ -6,4 +6,5 @@ end
 
 group :development do
 	gem 'rake'
+	gem 'jeweler'
 end

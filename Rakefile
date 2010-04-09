@@ -4,6 +4,25 @@ Bundler.setup(:development)
 
 require 'rake'
 
+begin
+  require 'jeweler'
+  $LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
+  require "redwood"
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "redwood"
+    gemspec.summary = "Ruby trees"
+    gemspec.description = "A simple library to create and manage basic tree-esque structures."
+    gemspec.version = Redwood::VERSION
+    gemspec.homepage = "http://github.com/mwunsch/redwood"
+    gemspec.authors = ["Mark Wunsch"]
+    gemspec.email = ["mark@markwunsch.com"]
+    gemspec.add_development_dependency "bundler", ">= 0.9.7"
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler not available. Install it with: gem install jeweler"
+end
+
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
