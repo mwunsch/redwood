@@ -162,6 +162,16 @@ class TestRedwood < Test::Unit::TestCase
       node = Redwood::Node.new(:parent)
       node.value = "hello world"
       assert_equal "hello world", node.value
+    end
+    
+    test 'unlinks a node from its parent' do
+      node = Redwood::Node.new(:parent)
+      dog = node.add_child :dog
+      
+      dog.unlink
+      assert node.leaf?
+      assert !node.children.include?(dog)
+      assert dog.root?
     end          
   end
 

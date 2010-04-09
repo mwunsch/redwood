@@ -81,6 +81,14 @@ module Redwood
     ancestors.size + 1
   end
   
+  def unlink
+    if parent
+      parent.children.delete(self)
+      self.instance_variable_set(:@parent, nil)
+      return self
+    end
+  end
+  
   def walk(&block)
     if block_given?
       yield self
