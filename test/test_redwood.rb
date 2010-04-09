@@ -109,10 +109,10 @@ class TestRedwood < Test::Unit::TestCase
       grandson = son.add_child(:grandson)
       greatgrandson = grandson.add_child(:greatgrandson)
       
-      assert_equal 0, node.depth
+      assert_equal 1, node.depth
       assert_equal daughter.depth, son.depth
-      assert_equal 2, grandson.depth
-      assert_equal 3, greatgrandson.depth
+      assert_equal 3, grandson.depth
+      assert_equal 4, greatgrandson.depth
     end
     
     test 'has a treeview' do
@@ -124,12 +124,13 @@ class TestRedwood < Test::Unit::TestCase
       daughter = node.add_child(:daughter)
       grandson = son.add_child(:grandson)
       granddaughter = daughter.add_child(:granddaughter)
-      granddaughter.add_child(:greatgranddaughter).add_child(:hamburger)
+      granddaughter.add_child(:greatgranddaughter).add_child(:hamburger).add_child(:ketchup)
       daughterson = daughter.add_child(:grandson)
       daughterson.add_child(:ruuudabegh).add_child(:hotdog)
       daughterson.add_child(:watermelon).add_child(:greatgrandson)
       greatgrandson = grandson.add_child(:greatgrandson)
-      greatgranddaughter = grandson.add_child(:greatgranddaughter).add_child(:strawberry)
+      greatgrandson.add_child(:cheese)
+      greatgranddaughter = grandson.add_child(:greatgranddaughter).add_child(:strawberry).add_child(:juice)
       son.add_child(:granddaughter)
       
       puts "\n"+node.view

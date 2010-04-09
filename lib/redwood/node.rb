@@ -22,19 +22,24 @@ module Redwood
     end
     
     def view(content = name)
-      treeview = "#{content} (#{depth})"
+      treeview = ''
+      if parent
+        treeview += parent.children.last.eql?(self) ? "`" : "|"
+        treeview << "--\s"
+      end
+      treeview << "#{content} (#{depth})"
       if !children.empty?
-        treeview += "\n"
+        treeview << "\n"
         children.each do |child|
-          if parent && parent.children.last.eql?(self)
-            treeview += ("|\s\s\s"*depth)
-            treeview += "\s\s\s\s"
-          else
-            treeview += "|\s\s\s"*depth          
+          if parent
+            if only_child? || parent.children.last.eql?(self)
+              treeview << "|\s\s\s"*(parent.depth - 1) + "\s\s\s\s"                
+            else
+              treeview << "|\s\s\s"*parent.depth
+            end         
           end
-          treeview += children.last.eql?(child) ? "`" : "|"          
-          treeview += "--\s#{child.view}"          
-          treeview += "\n" if !children.last.eql?(child)          
+          treeview << child.view    
+          treeview << "\n" if !children.last.eql?(child)          
         end
       end
       treeview

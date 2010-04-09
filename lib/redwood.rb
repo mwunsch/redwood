@@ -14,6 +14,10 @@ module Redwood
     parent.nil?
   end
   
+  def leaf?
+    children.empty?
+  end
+  
   def root
     if root?
       self
@@ -68,7 +72,7 @@ module Redwood
   end
 
   def depth
-    ancestors.size
+    ancestors.size + 1
   end  
   
 end
