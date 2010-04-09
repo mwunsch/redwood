@@ -126,6 +126,14 @@ class TestRedwood < Test::Unit::TestCase
       assert_respond_to node, :view
       assert_equal String, node.view.class
     end
+    
+    test 'is a leaf node' do
+      node = Redwood::Node.new(:parent)
+      child = node.add_child(:child)
+      
+      assert !node.leaf?
+      assert child.leaf?
+    end
         
   end
 end
