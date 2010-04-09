@@ -134,6 +134,18 @@ class TestRedwood < Test::Unit::TestCase
       assert !node.leaf?
       assert child.leaf?
     end
+    
+    test 'walks the tree' do
+      node = Redwood::Node.new(:parent)
+      dog = node.add_child(:dog)
+      puppy = dog.add_child(:puppy)
+      son = node.add_child(:son)      
+      daughter = node.add_child(:daughter)
+      grandson = son.add_child(:grandson)
+      counter = 0
+      node.walk {|n| counter += 1 }
+      assert_equal 6, counter
+    end
         
   end
 end

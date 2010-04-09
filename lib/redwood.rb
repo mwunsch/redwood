@@ -81,6 +81,13 @@ module Redwood
     ancestors.size + 1
   end
   
+  def walk(&block)
+    if block_given?
+      yield self
+      children.each {|child| child.walk(&block) }
+    end
+  end
+  
   def view(content = :name)
     treeview = ''
     if parent
