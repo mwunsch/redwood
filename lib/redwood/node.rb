@@ -12,6 +12,13 @@ module Redwood
     # Creates a child, adds it to children, and returns the child
     def add_child(name)
       child = self.class.new(name, self)
+      yield child if block_given?
+      children << child
+      child
+    end
+    
+    def <<(child)
+      child.instance_variable_set(:@parent, self)
       children << child
       child
     end

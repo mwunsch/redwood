@@ -146,6 +146,17 @@ class TestRedwood < Test::Unit::TestCase
       node.walk {|n| counter += 1 }
       assert_equal 6, counter
     end
+    
+    test 'add a child with the << method' do
+      node = Redwood::Node.new(:parent)
+      dog = Redwood::Node.new(:dog)
+      
+      node << dog
+      assert_equal node, dog.parent
+      assert node.children.include?(dog)
+      assert !dog.root?
+      assert !node.leaf?
+    end
         
   end
 end
