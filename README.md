@@ -1,6 +1,6 @@
 = redwood
 
-Description goes here.
+Not quite baked yet.
 
 == Note on Patches/Pull Requests
  
