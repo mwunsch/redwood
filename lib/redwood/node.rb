@@ -7,7 +7,7 @@ module Redwood
       if File.directory?(dir)
         Dir.foreach(dir) do |d|
           if File.directory?("#{dir}/#{d}")
-            node << scandir("#{dir}/#{d}",tree) unless (d.eql?('..') || d.eql?('.') || d.eql?('.git'))
+            node << scandir("#{dir}/#{d}",tree) unless (d.eql?('..') || d.eql?('.'))
           else
             node.add_child(d)
           end
@@ -19,6 +19,7 @@ module Redwood
     end
     
     attr_reader :name
+    attr_accessor :value
     
     def initialize(name=nil, parent=nil)
       @name = name
