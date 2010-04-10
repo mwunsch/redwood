@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'optparse'
+
 begin
   require 'redwood'
 rescue LoadError
@@ -12,6 +14,11 @@ rescue LoadError
   raise
 end
 
+options = {
+  :follow_symlinks => false,
+  :show_hidden_files => false
+}
+
 def statement(tree)
   directories = 0
   files = 0
@@ -22,9 +29,22 @@ def statement(tree)
   "#{directories} directories, #{files} file"
 end
 
+def setup_tree(tree, options)
+  if !options[:follow_symlinks]
+    tree.walk do |f|
+      if f.symlink?
+        f.value = "#{f.basename} -> #{f.readlink}"
+        f.children.each {|child| child.unlink }
+      end
+    end
+  end
+  # tree.walk {|f| f.unlink if f.basename.index('.').eql?(0) }if !show_hidden_files
+  tree
+end
+
 if ARGV.empty?
-  tree = Redwood::FileNode.scandir('.')
-  puts tree.view
+  tree = setup_tree(Redwood::FileNode.scandir('.'), options)
+  puts tree.view(:value)
   puts "\n"
   puts statement(tree)
   exit

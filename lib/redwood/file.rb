@@ -24,6 +24,10 @@ module Redwood
       @path = File.expand_path(name)
     end
     
+    def value
+      @value ||= basename
+    end
+    
     def method_missing(method, *args, &block)
       if File.respond_to?(method)
         File.send method, path

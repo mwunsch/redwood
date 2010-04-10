@@ -89,6 +89,12 @@ module Redwood
     end
   end
   
+  def prune
+    if children
+      children.each {|child| child.unlink }
+    end
+  end
+  
   def walk(&block)
     if block_given?
       yield self

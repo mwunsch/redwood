@@ -172,6 +172,16 @@ class TestRedwood < Test::Unit::TestCase
       assert node.leaf?
       assert !node.children.include?(dog)
       assert dog.root?
+    end
+    
+    test 'prunes its children' do
+      node = Redwood::Node.new(:parent)
+      dog = node.add_child :dog
+      
+      node.prune
+      assert node.children.empty?
+      assert node.leaf?
+      assert !dog.parent
     end          
   end
 
