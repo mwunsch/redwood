@@ -23,22 +23,31 @@ def statement(tree)
   directories = 0
   files = 0
   tree.descendants.each do |f|
-    directories += 1 if f.directory?
-    files += 1 if f.file?
+    if f.directory?
+      directories += 1
+    else
+      files += 1
+    end
   end
-  "#{directories} directories, #{files} file"
+  d = directories.eql?(1) ? 'directory' : 'directories'
+  f = files.eql?(1) ? 'file' : 'files'
+  "#{directories} #{d}, #{files} #{f}"
 end
 
 def setup_tree(tree, options)
   if !options[:follow_symlinks]
-    tree.walk do |f|
-      if f.symlink?
+    tree.descendants.each do |f|
+      if f.symlink?        
         f.value = "#{f.basename} -> #{f.readlink}"
-        f.children.each {|child| child.unlink }
       end
+      f.unlink if f.parent.symlink?
     end
   end
-  # tree.walk {|f| f.unlink if f.basename.index('.').eql?(0) }if !show_hidden_files
+  if !options[:show_hidden_files]
+    tree.descendants.each do |f| 
+        f.unlink if f.basename.index('.').eql?(0)
+    end
+  end
   tree
 end
 
