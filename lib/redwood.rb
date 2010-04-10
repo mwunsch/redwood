@@ -57,24 +57,22 @@ module Redwood
   end
 
   def ancestors
-    return @ancestors if @ancestors
-    @ancestors = []
+    ancestors = []
     if parent
-      @ancestors << parent
-      parent.ancestors.each {|ancestor| @ancestors << ancestor }
+      ancestors << parent
+      parent.ancestors.each {|ancestor| ancestors << ancestor }
     end
-    @ancestors
+    ancestors
   end
 
   def descendants
-    return @descendants if @descendants
-    @descendants = []
+    descendants = []
     if !children.empty?
-      (@descendants << children).flatten!
-      children.each {|descendant| @descendants << descendant.descendants }
-      @descendants.flatten!   
+      (descendants << children).flatten!
+      children.each {|descendant| descendants << descendant.descendants }
+      descendants.flatten!   
     end
-    @descendants
+    descendants
   end
 
   def depth
