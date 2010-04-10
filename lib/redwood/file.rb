@@ -8,7 +8,7 @@ module Redwood
           if File.directory?("#{dir}/#{d}")
             node << scandir("#{dir}/#{d}",tree) unless (d.eql?('..') || d.eql?('.'))
           else
-            node.add_child(d)
+            node.add_child("#{dir}/#{d}")
           end
         end
       else
