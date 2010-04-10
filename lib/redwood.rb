@@ -21,7 +21,7 @@ module Redwood
   end
   
   def leaf?
-    children.empty?
+    children.nil? || children.empty?
   end
   
   def root
@@ -48,12 +48,8 @@ module Redwood
     end
   end
   
-  def childless?
-    children.nil? || children.empty?
-  end
-  
   def has_children?
-    !childless?
+    !leaf?
   end
 
   def ancestors
