@@ -128,6 +128,6 @@ module Redwood
     treeview
   end
   
-  autoload :FileNode, 'redwood/file'
+  autoload :FileNode, 'redwood/filenode'
   autoload :Node, 'redwood/node'
 end
