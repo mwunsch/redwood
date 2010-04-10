@@ -1,6 +1,21 @@
 #!/usr/bin/env ruby
+## Redwood is an implementation of `tree` in Ruby
+##
+## Usage: redwood [ OPTIONS ] [ DIRECTORY ]
+## 
+## Learn more about the original at:
+## http://mama.indstate.edu/users/ice/tree/
+##
+##
 
 require 'optparse'
+
+def usage
+  File.readlines(__FILE__).
+  grep(/^##.*/).
+  map { |line| line.chomp[3..-1] }.
+  join("\n")
+end
 
 begin
   require 'redwood'
@@ -18,6 +33,22 @@ options = {
   :follow_symlinks => false,
   :show_hidden_files => false
 }
+ARGV.options do |option|
+  option.banner = usage
+  option.separator "Options"
+  option.on('-a','All files are listed.') { options[:show_hidden_files] = true }
+  option.on('-d','List directories only.') { options[:only_directories] = true }
+  option.on('-l','Follow symbolic links like directories.') { options[:follow_symlinks] = true }
+  option.on('-f','Print the full path prefix for each file.') { options[:full_path] = true }
+  option.on('-s','Print the size in bytes of each file.') { options[:size] = true }
+  option.on('-D','Print the date of last modification.') { options[:date] = :mtime }
+  option.on('-F',"Appends '/', '@', '=', '*', or '|' as per ls -F.") { options[:ftype] = true }
+  option.on('-L level','Descend only level directories deep.') { |depth| options[:depth] = depth.to_i + 1}
+  option.separator ""  
+  option.on_tail('--version','Prints version and exits.') { puts Redwood::VERSION ; exit }
+  option.on_tail('--help','Prints this help screen.') { puts option ; exit }
+  option.parse!
+end
 
 def statement(tree)
   directories = 0
@@ -35,27 +66,55 @@ def statement(tree)
 end
 
 def setup_tree(tree, options)
+  if options[:depth]
+    abort 'Invalid level, must be greater than 0' if options[:depth] <= 1
+    tree.descendants.each {|f| f.unlink if f.depth > options[:depth] }
+  end
   if !options[:follow_symlinks]
     tree.descendants.each do |f|
       if f.symlink?        
-        f.value = "#{f.basename} -> #{f.readlink}"
+        f.value << " -> #{f.readlink}"
       end
       f.unlink if f.parent.symlink?
     end
+  end
+  if options[:only_directories]
+    tree.descendants.each {|f| f.unlink if !f.directory? }
   end
   if !options[:show_hidden_files]
     tree.descendants.each do |f| 
         f.unlink if f.basename.index('.').eql?(0)
     end
   end
+  tree.walk {|f| f.value = f.path } if options[:full_path]
+  
+  if options[:date]
+    tree.descendants.each {|f| f.value.insert(0,"[#{f.send(options[:date]).strftime('%b %d %H:%M')}] ") }
+  end
+  if options[:size]
+    tree.descendants.each {|f| f.value.insert(0,"[#{f.size}] ") if f.size? }
+  end
+  if options[:ftype]
+    tree.descendants.each do |f|
+      f.value << "|" if f.ftype == 'fifo'
+      if f.symlink?
+        f.value << "@"
+      elsif f.directory?
+        f.value << "/"
+      end
+      f.value << "*" if f.executable? && f.file?
+      f.value << "=" if f.socket?
+    end
+  end
   tree
 end
 
-if ARGV.empty?
-  tree = setup_tree(Redwood::FileNode.scandir('.'), options)
-  puts tree.view(:value)
-  puts "\n"
-  puts statement(tree)
-  exit
-end
+dir = ARGV.empty? ? '.' : ARGV.first
+abort %Q{"#{dir}" is not a directory.} if !File.directory?(dir)
+
+tree = setup_tree Redwood::FileNode.scandir(dir), options
+puts tree.view(:value)
+puts "\n"
+puts statement(tree)
+exit
   
