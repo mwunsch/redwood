@@ -1,29 +1,27 @@
-# The Redood module can be mixed in to give tree-like methods to an object.
+# The Redwood module can be mixed in to give tree-like methods to an object.
 # Its primary implementation is the Redwood::Node class. Its only requirement
 # is that the tree-infused-object's children and parent is an object that 
-# also mixes in Redwood. See Redwood::Node for the canononical representation.
+# also mixes in tree-like methods. See Redwood::Node for the canononical representation.
 
 module Redwood
   VERSION = "0.0.1" 
   
+  # This node's parent.
   def parent
     @parent
   end
   
-  def name
-  end
-  
-  def value
-  end
-  
+  # Is this node the root of the tree?
   def root?
     parent.nil?
   end
   
+  # Is this node a leaf node? Is this node childless?
   def leaf?
     children.nil? || children.empty?
   end
   
+  # Get the root node in this tree.
   def root
     if root?
       self
@@ -31,27 +29,32 @@ module Redwood
       parent.root
     end
   end
-
+  
+  # Get the children of this node.
   def children
     @children ||= []
   end
   
+  # Get the siblings of this node. The other children belonging to this node's parent.
   def siblings
     if parent
       parent.children.reject {|child| child == self }
     end
   end
   
+  # Is this node the only child of its parent. Does it have any siblings?
   def only_child?
     if parent
       siblings.empty?
     end
   end
   
+  # Does this node have children? Is it not a leaf node?
   def has_children?
     !leaf?
   end
-
+  
+  # Get all of the ancestors for this node.
   def ancestors
     ancestors = []
     if parent
@@ -60,7 +63,9 @@ module Redwood
     end
     ancestors
   end
-
+  
+  # Get all of the descendants of this node.
+  # All of its children, and its childrens' children, and its childrens' childrens' children...
   def descendants
     descendants = []
     if !children.empty?
@@ -70,11 +75,14 @@ module Redwood
     end
     descendants
   end
-
+  
+  # An integer representation of how deep in the tree this node is.
+  # The root node has a depth of 1, its children have a depth of 2, etc.
   def depth
     ancestors.size + 1
   end
   
+  # Orphan this node. Remove it from its parent node.
   def unlink
     if parent
       parent.children.delete(self)
@@ -83,12 +91,14 @@ module Redwood
     end
   end
   
+  # Abandon all of this node's children.
   def prune
     if children
       children.each {|child| child.unlink }
     end
   end
   
+  # Recursively yield every node in the tree.
   def walk(&block)
     if block_given?
       yield self
@@ -96,6 +106,7 @@ module Redwood
     end
   end
   
+  # Makes a pretty string representation of the tree.
   def view(content = :name)
     treeview = ''
     if parent
@@ -103,7 +114,7 @@ module Redwood
       treeview << "--\s"
     end
     treeview << "#{self.send(content)}"
-    if !children.empty?
+    if has_children?
       treeview << "\n"
       children.each do |child|
         if parent

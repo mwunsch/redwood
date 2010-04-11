@@ -1,3 +1,5 @@
+# A basic representation of a Redwood tree.
+
 module Redwood
   class Node
     include Redwood
@@ -18,12 +20,14 @@ module Redwood
       child
     end
     
+    # Add a node to this nodes children, and return the child
     def <<(child)
       child.instance_variable_set(:@parent, self)
       children << child
       child
     end
     
+    # Lookup a child node by its name
     def [](key)
       selected_child = children.select {|child| child.name == key }
       selected_child.size.eql?(1) ? selected_child.first : selected_child
