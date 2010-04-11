@@ -5,13 +5,15 @@
 
 Gem::Specification.new do |s|
   s.name = %q{redwood}
-  s.version = "0.0.1"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mark Wunsch"]
-  s.date = %q{2010-04-09}
+  s.date = %q{2010-04-10}
+  s.default_executable = %q{redwood}
   s.description = %q{A simple library to create and manage basic tree-esque structures.}
   s.email = ["mark@markwunsch.com"]
+  s.executables = ["redwood"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.md"
@@ -23,8 +25,14 @@ Gem::Specification.new do |s|
      "LICENSE",
      "README.md",
      "Rakefile",
+     "bin/redwood",
      "lib/redwood.rb",
+     "lib/redwood/filenode.rb",
      "lib/redwood/node.rb",
+     "man/redwood.1",
+     "man/redwood.1.html",
+     "man/redwood.1.ronn",
+     "redwood.gemspec",
      "test/helper.rb",
      "test/test_redwood.rb"
   ]
