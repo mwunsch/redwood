@@ -1,0 +1,64 @@
+redwood(1) -- Ruby-flavored tree
+===================================
+
+## SYNOPSIS
+
+`redwood` [<OPTIONS>] <DIRECTORY>
+
+## DESCRIPTION
+
+`redwood` is an implementation of `tree` in Ruby. Like the original `Tree`, `Redwood` is a recursive directory listing program, producing a pretty-looking depth indented listing of directory contents. Without arguments, `redwood` lists the files in the current directory. Like `tree`, after listing, `redwood` prints a summary of the total number of files and/or directories listed.
+
+And, again like the original `tree`, symbolic links are not followed and hidden files (those beginning with a '.') remain unseen by default. You can reveal them with options. File system constructs, the current directory as '.' and the parent directory as '..', are never printed.
+
+Learn more about the original `tree` with tree(1) and at http://mama.indstate.edu/users/ice/tree/
+
+This is a proof-of-concept. It's written in Ruby. It does half of what `tree` does pretty well. You should probably just use `tree`. 
+
+## OPTIONS
+
+* `-a`:
+	Print all files, even hidden ones (that begin with a '.').
+	
+* `-d`:
+	Only list directories.
+	
+* `-l`:
+	Follow symbolic links (that point to directories), as though they were directories. There is no protection from recursion, so don't do that.
+	
+* `-f`:
+	Print the full path prefix for each file.
+
+* `-s`:
+	Print the size of each file in bytes.
+	
+* `-D`:
+	Print the date of last modification for the file, in the format like: 'Aug 25 14:92'
+
+* `-F`:
+	Appends '/' to directories, '@' to symlinks, '=' to sockets, '*' to executables, and '|' to FIFO's, as per ls -F.	
+	
+* `-L` _level_:
+	Max display depth of the directory tree. Has got to be greater than 0.
+
+Other:
+
+* `--help`:
+	Print the help message and quit.
+	
+* `--version`:
+	Print the `redwood` version and quit.
+	
+## INSTALLATION
+
+If you have RubyGems installed:
+
+	gem install redwood
+
+## COPYRIGHT
+
+Redwood is Copyright (C) 2010 Mark Wunsch
+
+## SEE ALSO
+
+tree(1), ls(1)

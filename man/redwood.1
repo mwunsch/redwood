@@ -1,0 +1,86 @@
+.\" generated with Ronn/v0.5
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "REDWOOD" "1" "April 2010" "Mark Wunsch" "Redwood Manual"
+.
+.SH "NAME"
+\fBredwood\fR \-\- Ruby\-flavored tree
+.
+.SH "SYNOPSIS"
+\fBredwood\fR [\fIOPTIONS\fR] \fIDIRECTORY\fR
+.
+.SH "DESCRIPTION"
+\fBredwood\fR is an implementation of \fBtree\fR in Ruby. Like the original \fBTree\fR, \fBRedwood\fR is a recursive directory listing program, producing a pretty\-looking depth indented listing of directory contents. Without arguments, \fBredwood\fR lists the files in the current directory. Like \fBtree\fR, after listing, \fBredwood\fR prints a summary of the total number of files and/or directories listed.
+.
+.P
+And, again like the original \fBtree\fR, symbolic links are not followed and hidden files (those beginning with a '.') remain unseen by default. You can reveal them with options. File system constructs, the current directory as '.' and the parent directory as '..', are never printed.
+.
+.P
+Learn more about the original \fBtree\fR with tree(1) and at http://mama.indstate.edu/users/ice/tree/
+.
+.P
+This is a proof\-of\-concept. It's written in Ruby. It does half of what \fBtree\fR does pretty well. You should probably just use \fBtree\fR.
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-a\fR
+  Print all files, even hidden ones (that begin with a '.').
+.
+.TP
+\fB\-d\fR
+  Only list directories.
+.
+.TP
+\fBl\fR
+  Follow symlinks (that point to directories), as though they were directories. There is no protection from recursion, so don't do that.
+.
+.TP
+\fB\-f\fR
+  Print the full path prefix for each file.
+.
+.TP
+\fB\-s\fR
+  Print the size of each file in bytes.
+.
+.TP
+\fB\-D\fR
+  Print the date of last modification for the file, in the format like: 'Aug 25 14:92'
+.
+.TP
+\fB\-F\fR
+  Appends '/' to directories, '@' to symlinks, '=' to sockets, '*' to executables, and '|' to FIFO's, as per ls \-F.
+.
+.TP
+\fB\-L\fR \fIlevel\fR
+  Max display depth of the directory tree. Has got to be greater than 0.
+.
+.P
+Other:
+.
+.TP
+\fB\-\-help\fR
+  Print the help message and quit.
+.
+.TP
+\fB\-\-version\fR
+  Print the \fBredwood\fR version and quit.
+.
+.SH "INSTALLATION"
+If you have RubyGems installed:
+.
+.IP "" 4
+.
+.nf
+
+gem install redwood
+.
+.fi
+.
+.IP "" 0
+.
+.SH "COPYRIGHT"
+Redwood is Copyright (C) 2010 Mark Wunsch
+.
+.SH "SEE ALSO"
+tree(1), ls(1)
