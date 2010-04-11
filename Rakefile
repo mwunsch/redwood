@@ -46,3 +46,13 @@ desc "Open an irb session preloaded with this library"
 task :console do
   sh "irb -rubygems -I lib -r redwood"
 end
+
+desc "Build the manual"
+task :build_man do
+  sh "ronn -br5 --organization='Mark Wunsch' --manual='Redwood Manual' man/*.ronn"
+end
+ 
+desc "Show the manual"
+task :man => :build_man do
+  exec "man man/redwood.1"
+end
