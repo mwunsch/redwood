@@ -42,7 +42,7 @@ Looks a bit like this:
 
 	5 directories, 12 files
 	
-Help is a `redwood --help` away.
+Help is a `redwood --help` away. See also: [redwood(1)](http://mwunsch.github.com/redwood/)
 
 ## `Redwood`
 
