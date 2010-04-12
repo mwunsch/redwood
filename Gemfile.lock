@@ -1,0 +1,33 @@
+--- 
+hash: 4f349b401ed72e5496be7d8b06828388953e9a4d
+sources: 
+- Rubygems: 
+    uri: http://rubygems.org
+specs: 
+- rake: 
+    version: 0.8.7
+- contest: 
+    version: 0.1.2
+- json_pure: 
+    version: 1.2.4
+- gemcutter: 
+    version: 0.5.0
+- git: 
+    version: 1.2.5
+- rubyforge: 
+    version: 2.0.4
+- jeweler: 
+    version: 1.4.0
+dependencies: 
+  contest: 
+    version: ">= 0"
+    group: 
+    - :test
+  rake: 
+    version: ">= 0"
+    group: 
+    - :development
+  jeweler: 
+    version: ">= 0"
+    group: 
+    - :development
