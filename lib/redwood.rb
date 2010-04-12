@@ -4,7 +4,7 @@
 # also mixes in tree-like methods. See Redwood::Node for the canononical representation.
 
 module Redwood
-  VERSION = "0.1.0" 
+  VERSION = "0.1.1" 
   
   # This node's parent.
   def parent
