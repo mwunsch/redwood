@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{redwood}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mark Wunsch"]
-  s.date = %q{2010-04-10}
+  s.date = %q{2010-04-12}
   s.default_executable = %q{redwood}
   s.description = %q{A simple library to create and manage basic tree-esque structures.}
   s.email = ["mark@markwunsch.com"]
@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
     ".document",
      ".gitignore",
      "Gemfile",
+     "Gemfile.lock",
      "LICENSE",
      "README.md",
      "Rakefile",
@@ -51,12 +52,12 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<bundler>, [">= 0.9.7"])
+      s.add_development_dependency(%q<bundler>, [">= 0.9.19"])
     else
-      s.add_dependency(%q<bundler>, [">= 0.9.7"])
+      s.add_dependency(%q<bundler>, [">= 0.9.19"])
     end
   else
-    s.add_dependency(%q<bundler>, [">= 0.9.7"])
+    s.add_dependency(%q<bundler>, [">= 0.9.19"])
   end
 end
 
