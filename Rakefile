@@ -16,7 +16,7 @@ begin
     gemspec.homepage = "http://github.com/mwunsch/redwood"
     gemspec.authors = ["Mark Wunsch"]
     gemspec.email = ["mark@markwunsch.com"]
-    gemspec.add_development_dependency "bundler", ">= 0.9.7"
+    gemspec.add_development_dependency "bundler", ">= 0.9.19"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
