@@ -82,6 +82,17 @@ module Redwood
     ancestors.size + 1
   end
   
+  # From Wikipedia: The height of a node is the length
+  # of the longest downward path to a leaf from that node. 
+  # In other words, the length of this node to its furthest descendant.
+  def height
+    if !leaf?
+      descendants.collect {|child| child.depth }.uniq.size + 1
+    else
+      1
+    end
+  end
+  
   # Orphan this node. Remove it from its parent node.
   def unlink
     if parent

@@ -109,6 +109,18 @@ class TestRedwood < Test::Unit::TestCase
       assert_equal 4, greatgrandson.depth
     end
     
+    test 'has a height' do
+      node = Redwood::Node.new(:parent)
+      son = node.add_child(:son)
+      daughter = node.add_child(:daughter)
+      grandson = son.add_child(:grandson)
+      greatgrandson = grandson.add_child(:greatgrandson)
+      
+      assert_equal greatgrandson.depth, node.height
+      assert_equal 1, daughter.height
+      assert_equal son.height, (node.height - 1)
+    end
+    
     test 'has a treeview' do
       node = Redwood::Node.new(:parent)
       dog = node.add_child(:dog)
