@@ -153,6 +153,16 @@ class TestRedwood < Test::Unit::TestCase
       assert_equal 6, counter
     end
     
+    test 'grafts a node' do
+      node = Redwood::Node.new(:parent)
+      dog = Redwood::Node.new(:dog)
+      
+      node.graft dog
+      
+      assert_equal node, dog.parent
+      assert node.children.include?(dog)
+    end
+    
     test 'add a child with the << method' do
       node = Redwood::Node.new(:parent)
       dog = Redwood::Node.new(:dog)

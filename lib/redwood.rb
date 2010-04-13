@@ -109,6 +109,13 @@ module Redwood
     end
   end
   
+  # Append a node to this node's children, and return the node.
+  def graft(node)
+    node.instance_variable_set(:@parent, self)
+    children << node
+    node
+  end
+  
   # Recursively yield every node in the tree.
   def walk(&block)
     if block_given?

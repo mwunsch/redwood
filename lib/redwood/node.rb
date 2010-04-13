@@ -20,11 +20,9 @@ module Redwood
       child
     end
     
-    # Add a node to this nodes children, and return the child
+    # Graft a child
     def <<(child)
-      child.instance_variable_set(:@parent, self)
-      children << child
-      child
+      graft child
     end
     
     # Lookup a child node by its name
