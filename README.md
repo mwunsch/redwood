@@ -61,8 +61,11 @@ Methods include:
 	descendants 	## All of the descendant nodes of this node.
 	depth 			## Integer representing how deep this node is in the tree.
 					## A root node has a depth of 1, its children: 2, etc.
+	height			## The length of this node to its furthest descendant.
+					## A leaf node has a height of 1.
 	unlink			## Detach this node from its parent.
 	prune			## Unlink all of this node's chidren.
+	graft			## Add a node to this node's children.
 	walk			## Recursively yield every node in this tree to a block
 	view			## Make a fancy string representation of the tree
 					## as seen in the command-line tool
@@ -73,7 +76,7 @@ The Redwood::Node class is a simple implementation of the Redwood module. It is 
 
 	add_child(name)		## Add a child node. Nodes can have a #name.
 	[](name)			## Lookup children node by their #name.
-	<<(node)			## Add a node to this node's children.
+	<<(node)			## Alias for `graft`.
 	
 #### Redwood::FileNode
 	
